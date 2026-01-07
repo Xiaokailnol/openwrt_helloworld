@@ -28,7 +28,7 @@ jobs:
       - name: Detect changed packages
         id: detect
         run: |
-          ALL_PKGS="chinadns-ng daed dns2socks dns2socks-rust dns2tcp geoview hysteria ipt2socks lua-neturl luci-app-daed luci-app-homeproxy luci-app-nikki luci-app-openclash luci-app-passwall luci-app-passwall2 luci-app-ssr-plus microsocks naiveproxy nikki pdnsd redsocks2 shadow-tls shadowsocks-libev shadowsocks-rust shadowsocksr-libev simple-obfs sing-box tcping trojan trojan-plus tuic-client v2ray-core v2ray-geodata v2ray-plugin xray-core xray-plugin"
+          ALL_PKGS="chinadns-ng dns2socks dns2socks-rust dns2tcp geoview hysteria ipt2socks lua-neturl luci-app-homeproxy luci-app-nikki luci-app-openclash luci-app-passwall luci-app-passwall2 luci-app-ssr-plus microsocks naiveproxy nikki pdnsd redsocks2 shadow-tls shadowsocks-libev shadowsocks-rust shadowsocksr-libev simple-obfs sing-box tcping trojan trojan-plus tuic-client v2ray-core v2ray-geodata v2ray-plugin xray-core xray-plugin"
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event_name }}" = "repository_dispatch" ]; then
             PKGS="$ALL_PKGS"
           else
@@ -55,11 +55,6 @@ jobs:
         run: |
           echo "No package changed, skipping build."
           exit 0
-
-      - name: Hack daed packages
-        if: steps.detect.outputs.pkgs != ''
-        run: |
-          sed -i 's/$(BPF_DEPENDS)//g' daed/Makefile || true
 
       - name: Free disk space
         if: steps.detect.outputs.pkgs != ''
